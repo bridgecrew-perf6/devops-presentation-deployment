@@ -1,8 +1,8 @@
 locals {
   definitions = [{
-    name        = var.service.name
-    image       = var.service.image_name
-    essential   = true
+    name      = var.service.name
+    image     = var.service.image_name
+    essential = true
     logConfiguration = {
       logDriver = "awslogs"
       options = {

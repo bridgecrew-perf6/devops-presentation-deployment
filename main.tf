@@ -1,3 +1,14 @@
+locals {
+  image = join(":", [var.devops_presentation.service.image_name, var.devops_presentation.service.image_version])
+  service = {
+    cpu_units    = var.devops_presentation.service.cpu_units
+    image_name   = local.image
+    ingress      = var.devops_presentation.service.ingress
+    memory_units = var.devops_presentation.service.memory_units
+    name         = var.devops_presentation.service.name
+  }
+}
+
 data "aws_lb" "ingress" {
   name = var.compute_cluster.ingress.name
 }
@@ -28,9 +39,9 @@ module "devops-presentation" {
     task_execution_role_arn = data.aws_iam_role.task_execution_role.arn
   }
   load_balancer = {
-    arn         = data.aws_lb.ingress.arn
+    arn = data.aws_lb.ingress.arn
   }
-  service = var.devops_presentation.service
+  service = local.service
   vpc = {
     id              = data.aws_vpc.vpc.id
     private_subnets = data.aws_subnets.private_subnets.ids

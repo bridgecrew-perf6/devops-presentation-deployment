@@ -10,7 +10,7 @@ variable "cluster" {
 variable "load_balancer" {
   description = "Load balancer used for ingress communication with the cluster."
   type = object({
-    arn         = string
+    arn = string
   })
 }
 
