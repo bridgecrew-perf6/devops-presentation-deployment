@@ -7,6 +7,8 @@ resource "aws_lb_target_group" "service" {
   lifecycle {
     create_before_destroy = true
   }
+  connection_termination = true
+  deregistration_delay = "0"
   health_check {
     healthy_threshold   = 2
     interval            = 10

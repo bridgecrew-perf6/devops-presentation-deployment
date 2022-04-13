@@ -8,11 +8,19 @@ phases:
       - unzip terraform_1.1.8_linux_amd64.zip
       - sudo mv terraform /usr/local/bin/
       - terraform version
+      - git config --global user.email "juanma.cvega@gmail.com"
   pre_build:
     commands:
       - git clone https://$GIT_USER:$GIT_PASS@$GIT_REPO
+      - cd $GIT_REPO_NAME
+      - sed -i "s/image_version .*/image_version = \"$CODEBUILD_RESOLVED_SOURCE_VERSION\"/" variables.tf
   build:
     commands:
-      - cd $GIT_REPO_NAME
       - terraform init
       - terraform apply -auto-approve
+  post_build:
+    commands:
+      - terraform fmt -recursive
+      - git add variables.tf
+      - git commit -m "Update service to version $CODEBUILD_RESOLVED_SOURCE_VERSION"
+      - git push
