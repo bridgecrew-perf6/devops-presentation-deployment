@@ -15,7 +15,7 @@ variable "devops_presentation" {
     service = {
       cpu_units     = 256
       image_name    = "juanmacvega/devops-presentation"
-      image_version = "latest"
+      image_version = "d5288f6d61ec850da17efe8b3939da5dd309006d"
       ingress = {
         port     = 8080
         protocol = "TCP"
